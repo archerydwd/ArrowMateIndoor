@@ -4,7 +4,7 @@
         ""
     ],
     "companyName": "archerydwd@gmail.com",
-    "longName": "test",
+    "longName": "Arrow Mate Indoor",
     "projectType": "simplyjs",
     "resources": {
         "media": [
@@ -26,10 +26,10 @@
             }
         ]
     },
-    "shortName": "test",
-    "uuid": "5d6e5625-64b2-4267-8d8d-06917376c9c3",
+    "shortName": "A.M.In",
+    "uuid": "6ea8cfc5-ec26-49f7-82e7-a6676c28a8ab",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "2.0",
     "watchapp": {
         "watchface": false
     }

@@ -17,6 +17,8 @@ function reset() {
     scores[i] = 10;
   }
   setBody();
+  simply.title('Arrow Mate');
+  simply.subtitle(scores[cs] + ' - _ - _');
 }
 
 function setDelay() {
@@ -31,7 +33,7 @@ function setBody() {
 }
 
 simply.setText({
-	title: 'Arrow Mate Indoor',
+	title: 'Arrow Mate',
   subtitle: scores[cs] + ' - _ - _',
 	body: ' Last Round: ' + roundTotal + '\r\n Total: ' + runningTotal + '\r\n Round end : ' + roundCount,
 }, true);
