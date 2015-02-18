@@ -26,10 +26,10 @@
             }
         ]
     },
-    "shortName": "A.M.In",
+    "shortName": "A.M.Indoor",
     "uuid": "6ea8cfc5-ec26-49f7-82e7-a6676c28a8ab",
     "versionCode": 1,
-    "versionLabel": "2.0",
+    "versionLabel": "2.1",
     "watchapp": {
         "watchface": false
     }

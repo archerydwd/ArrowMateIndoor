@@ -78,6 +78,7 @@ simply.on('singleClick', function(e) {
     else {
       runningTotal += scores[cs];
       cs++;
+			scores[cs] = scores[cs-1];
       if(count === 1) {
         simply.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
       }
