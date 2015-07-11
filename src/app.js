@@ -1,9 +1,10 @@
 /*
 author: Darren Daly
 */
+var UI = require('ui');
 var cs, roundTotal, runningTotal, count, roundCount, set, set1, set2, end;
 var scores = [121];
-var rounds = [4];
+var rounds = [0, 0, 0, 0];
 var key = Date.now();
 reset();
 
@@ -172,8 +173,24 @@ simply.on('longClick', function(e) {
 		else if (typeof rnds[0] != "undefined"){
 			endscore = rnds[0];
 		}
-		console.log(rnds);
 		simply.title('scores:');
     simply.body('Total Score: ' + endscore  + '\r\n 1st 30: ' + rnds[0] + '\r\n 2nd 30: ' + rnds[1] + '\r\n 3rd 30: ' + rnds[2]  + '\r\n 4th 30: ' + rnds[3], true);
   }
+	
+	else if (e.button == 'up') {
+		simply.title('scores:');
+		var ListOfScores = [];
+		for (var i = 0; i < localStorage.length; i++){
+			ListOfScores.append(JSON.parse(localStorage.getItem(localStorage.key(i))));
+		}
+		
+		var scoreMenu = new UI.Menu({
+			sections: [{
+				title: 'Score List',
+				items: ListOfScores
+			}]
+		});
+		
+		scoreMenu.show();
+	}
 });
