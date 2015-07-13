@@ -1,7 +1,28 @@
+/**
+ * Author: Darren Daly.
+ * Version: 3.0.
+ * Date: 13/07/2016.
+ */
+var UI = require('ui');
+var Vibe = require('ui/vibe');
+var Settings = require('settings');
 var cs, roundTotal, runningTotal, count, roundCount, set, set1, set2, end;
 var scores = [121];
-var rounds = [4];
+var rounds = [0, 0, 0, 0];
+var d = new Date();
+var key = d.toUTCString();
+console.log("******************");
+console.log(key);
+
+var main = new UI.Card({
+  title: 'Arrow Mate',
+	fullscreen: true,
+  subtitle: scores[cs] + ' - _ - _',
+  body: ' Last Round: ' + roundTotal + '\r\n Total: ' + runningTotal + '\r\n Round end : ' + roundCount
+});
+
 reset();
+main.show();
 
 function reset() {
   end = false;
@@ -17,61 +38,31 @@ function reset() {
     scores[i] = 10;
   }
   setBody();
-  simply.title('Arrow Mate');
-  simply.subtitle(scores[cs] + ' - _ - _');
+  main.title('Arrow Mate');
+  main.subtitle(scores[cs] + ' - _ - _');
+}
+
+function setBody() {
+  main.body(' Last Round: ' + roundTotal + '\r\n Total: ' + runningTotal + '\r\n Round end : ' + roundCount);
 }
 
 function setDelay() {
   var delay=3000;
   setTimeout(function() {
-    simply.subtitle(scores[cs] + ' - _ - _');
+    main.subtitle(scores[cs] + ' - _ - _');
   },delay); 
 }
 
-function setBody() {
-  simply.body(' Last Round: ' + roundTotal + '\r\n Total: ' + runningTotal + '\r\n Round end : ' + roundCount);
-}
-
-simply.setText({
-	title: 'Arrow Mate',
-  subtitle: scores[cs] + ' - _ - _',
-	body: ' Last Round: ' + roundTotal + '\r\n Total: ' + runningTotal + '\r\n Round end : ' + roundCount,
-}, true);
-
-simply.on('singleClick', function(e) {
-  if (end) {
+// SELECT SCORE
+main.on('click', 'select', function(e) {
+	if (end) {
     reset();
   }
-	else if (scores[cs] < 10 && e.button == 'up') {
-    scores[cs] += 1;
-    if (count === 1) {
-      simply.subtitle(scores[cs] + ' - _ - _');
-    }
-    else if (count === 2) {
-      simply.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
-    }
-    else if (count === 3) {
-      simply.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
-    }
-	}
-	else if (scores[cs] > 0 && e.button == 'down') {
-		scores[cs] -= 1;
-    if (count === 1) {
-      simply.subtitle(scores[cs] + ' - _ - _');
-    }
-    else if (count === 2) {
-      simply.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
-    }
-    else if (count === 3) {
-      simply.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
-    }
-	}
-	else if (e.button == 'select') {
-    if (count === 3) {
+	if (count === 3) {
       roundTotal = scores[cs] + scores[cs-1] + scores[cs-2];
       runningTotal += scores[cs];
       cs++;
-      simply.subtitle(scores[cs] + ' - _ - _');
+      main.subtitle(scores[cs] + ' - _ - _');
       count = 1;
       roundCount++;
     }
@@ -80,42 +71,99 @@ simply.on('singleClick', function(e) {
       cs++;
 			scores[cs] = scores[cs-1];
       if(count === 1) {
-        simply.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
+        main.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
       }
       else if (count === 2) {
-        simply.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
+        main.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
       }
       count++;
     }
     setBody();
-	}
+	
   if (cs === 121) {
     rounds[3] = runningTotal - (rounds[0] + rounds[1] + rounds[2]);
-    simply.title('Congrats!!!');
-    simply.body('Total Score: ' + runningTotal  + '\r\n 1st 30: ' + rounds[0] + '\r\n 2nd 30: ' + rounds[1] + '\r\n 3rd 30: ' + rounds[2]  + '\r\n 4th 30: ' + rounds[3], true);
-    end = true;
+		Settings.data(key, { 'a' : rounds[0], 'b' : rounds[1], 'c' : rounds[2], 'd' : rounds[3] });
+		main.subtitle("Total score: " + runningTotal);
+    main.body('1st 30: ' + rounds[0] + '\r\n 2nd 30: ' + rounds[1] + '\r\n 3rd 30: ' + rounds[2]  + '\r\n 4th 30: ' + rounds[3], true);
+    Vibe.vibrate('long');
+		end = true;
   }
   if (roundCount === 11 && !set) {
     rounds[0] = runningTotal;
-    simply.subtitle("first 30: " + rounds[0]);
+		Settings.data(key, { 'a' : rounds[0], 'b' : rounds[1], 'c' : rounds[2], 'd' : rounds[3] });
+		main.subtitle("1st 30: " + rounds[0]);
+		Vibe.vibrate('long');
     set = true;
     setDelay();
   }
   else if (roundCount === 21 && !set1) {
     rounds[1] = runningTotal - rounds[0];
-    simply.subtitle("second 30: " + rounds[1]);
-    set1 = true;
+		Settings.data(key, { 'a' : rounds[0], 'b' : rounds[1], 'c' : rounds[2], 'd' : rounds[3] });
+		main.subtitle("2nd 30: " + rounds[1]);
+    Vibe.vibrate('long');
+		set1 = true;
     setDelay();
   }
   else if (roundCount === 31 && !set2) {
     rounds[2] = runningTotal - (rounds[0] + rounds[1]);
-    simply.subtitle("third 30: " + rounds[2]);
-    set2 = true;
+		Settings.data(key, { 'a' : rounds[0], 'b' : rounds[1], 'c' : rounds[2], 'd' : rounds[3] });
+    main.subtitle("3rd 30: " + rounds[2]);
+    Vibe.vibrate('long');
+		set2 = true;
     setDelay();
   }
+  
 });
 
-simply.on('longClick', function(e) {
+// BRING UP SCORE
+main.on('click', 'up', function(e) {
+  if(scores[cs] < 10){
+		scores[cs] += 1;
+    if (count === 1) {
+      main.subtitle(scores[cs] + ' - _ - _');
+    }
+    else if (count === 2) {
+      main.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
+    }
+    else if (count === 3) {
+      main.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
+    }
+	}
+});
+
+main.on('longClick', 'up', function(e) {
+		var scorestext = "";
+		var data = Settings.data();
+		var scoreList = new UI.Card({
+			scrollable: true,
+			title : "Scores"
+		});
+		for(var key in data){
+			scorestext += key + "\r\n" + (data[key].a+data[key].b+data[key].c+data[key].d) + "[" + data[key].a + "," + data[key].b + "," + data[key].c + "," + data[key].d + "]\r\n";
+		}
+	
+		scoreList.body(scorestext);
+		scoreList.show();
+});
+
+// BRING DOWN SCORE
+main.on('click', 'down', function(e) {
+  if(scores[cs] > 0){
+		scores[cs] -= 1;
+    if (count === 1) {
+      main.subtitle(scores[cs] + ' - _ - _');
+    }
+    else if (count === 2) {
+      main.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
+    }
+    else if (count === 3) {
+      main.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
+    }
+	}
+});
+
+// DELETE FUNCTIONALITY
+main.on('longClick', function(e) {
   if (end) {
     reset();
   }
@@ -124,29 +172,31 @@ simply.on('longClick', function(e) {
       scores[cs] = 10;
       cs--;
       runningTotal = runningTotal - scores[cs];
-      simply.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
+      main.subtitle(scores[cs-2] + ' - ' + scores[cs-1] + ' - ' + scores[cs]);
       roundCount--;
       setBody();
       count = 3;
-      simply.vibe();
+      Vibe.vibrate('short');
     }
     else if (count === 2) {
       scores[cs] = 10;
       cs--;
       runningTotal = runningTotal - scores[cs];
-      simply.subtitle(scores[cs] + ' - _ - _');
+      main.subtitle(scores[cs] + ' - _ - _');
       setBody();
       count--;
-      simply.vibe();
+      Vibe.vibrate('short');
     }
     else if (count === 3) {
       scores[cs] = 10;
       cs--;
       runningTotal = runningTotal - scores[cs];
-      simply.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
+      main.subtitle(scores[cs-1] + ' - ' + scores[cs] + ' - _');
       setBody();
       count--;
-      simply.vibe();
+      Vibe.vibrate('short');
     }
   }
 });
+
+
