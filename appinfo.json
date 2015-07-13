@@ -5,7 +5,7 @@
     ],
     "companyName": "archerydwd@gmail.com",
     "longName": "Arrow Mate Indoor",
-    "projectType": "simplyjs",
+    "projectType": "pebblejs",
     "resources": {
         "media": [
             {
@@ -20,16 +20,22 @@
                 "type": "png"
             },
             {
+                "file": "images/tile_splash.png",
+                "name": "IMAGE_TILE_SPLASH",
+                "type": "png"
+            },
+            {
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
                 "type": "font"
             }
         ]
     },
-    "shortName": "A.M.Indoor",
+    "sdkVersion": "3",
+    "shortName": "ArrowMateIn",
     "uuid": "6ea8cfc5-ec26-49f7-82e7-a6676c28a8ab",
     "versionCode": 1,
-    "versionLabel": "2.1",
+    "versionLabel": "3.0",
     "watchapp": {
         "watchface": false
     }
