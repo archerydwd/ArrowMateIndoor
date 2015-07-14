@@ -10,7 +10,6 @@
         "media": [
             {
                 "file": "images/menu_icon.png",
-                "menuIcon": true,
                 "name": "IMAGE_MENU_ICON",
                 "type": "png"
             },
@@ -28,6 +27,12 @@
                 "file": "fonts/UbuntuMono-Regular.ttf",
                 "name": "MONO_FONT_14",
                 "type": "font"
+            },
+            {
+                "file": "images/converted_1d789ce6.png",
+                "menuIcon": true,
+                "name": "IMAGES_CONVERTED_1D789CE6_PNG",
+                "type": "png"
             }
         ]
     },
@@ -35,7 +40,7 @@
     "shortName": "ArrowMateIn",
     "uuid": "6ea8cfc5-ec26-49f7-82e7-a6676c28a8ab",
     "versionCode": 1,
-    "versionLabel": "3.0",
+    "versionLabel": "3.1",
     "watchapp": {
         "watchface": false
     }

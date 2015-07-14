@@ -11,8 +11,6 @@ var scores = [121];
 var rounds = [0, 0, 0, 0];
 var d = new Date();
 var key = d.toUTCString();
-console.log("******************");
-console.log(key);
 
 var main = new UI.Card({
   title: 'Arrow Mate',
